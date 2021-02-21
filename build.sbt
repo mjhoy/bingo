@@ -45,5 +45,10 @@ mainClass in Compile := Some("bike.mikey.bingo.App")
 
 addCommandAlias(
   "checkAll",
-  "scalafmtCheck; scalafix --check",
+  "scalafmtCheck ; scalafix --check",
+)
+
+addCommandAlias(
+  "fixAll",
+  "scalafmt ; scalafix",
 )
