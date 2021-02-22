@@ -3,7 +3,7 @@ corpbingo
 
 Play some corporate bingo.
 
-Uses [scalajs](https://www.scala-js.org) and the the
+Uses [scalajs](https://www.scala-js.org) and the
 [laminar](https://laminar.dev) UI library.
 
 ## Requirements
