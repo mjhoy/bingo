@@ -33,3 +33,11 @@ Now visit http://localhost:8080.
 
 There are none! Yet. Just run `sbt checkAll` to make sure the code passes
 lint. To try to fix errors, run `sbt fixAll`.
+
+## Deploying
+
+With appropriate S3 permissions:
+
+```sh
+./scripts/deploy
+```
