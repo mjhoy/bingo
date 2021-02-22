@@ -11,11 +11,11 @@ sealed trait Tile {
   def active: Boolean
 }
 case class Square(text: String, picked: Boolean) extends Tile {
-  def id: String = text
+  def id = text
   def active = picked
 }
 case class Free() extends Tile {
-  def id: String = "free"
+  def id = "free"
   def active = true
 }
 
@@ -35,7 +35,6 @@ object App {
           },
         ),
       )
-    //tilesVar.update()
   }
 
   lazy val node: HtmlElement = {
@@ -57,7 +56,7 @@ object App {
   }
 
   def renderTile(
-    @unused tileId: String,
+    tileId: String,
     @unused initial: Tile,
     $item: Signal[Tile],
   ): HtmlElement = {
