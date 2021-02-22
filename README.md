@@ -1,6 +1,11 @@
 corpbingo
 =========
 
+Play some corporate bingo.
+
+Uses [scalajs](https://www.scala-js.org) and the the
+[laminar](https://laminar.dev) UI library.
+
 ## Requirements
 
 - [sbt](https://www.scala-sbt.org)
