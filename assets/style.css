@@ -12,6 +12,22 @@ h1 {
   margin-top: 50px;
 }
 
+h2 {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 300;
+  font-size: 12px;
+  text-align: center;
+}
+h2 a {
+  color: rgb(151, 31, 10);
+  text-decoration: none;
+}
+h2 a:hover {
+  color: rgb(94, 12, 6);
+}
+
 .tile {
   display: inline-block;
   width: 160px;

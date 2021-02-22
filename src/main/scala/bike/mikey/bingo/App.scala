@@ -43,6 +43,12 @@ object App {
     div(
       className("container"),
       h1("Corporate Bingo!"),
+      h2(
+        a(
+          href("/"),
+          "Reset",
+        ),
+      ),
       ul(
         cls("tiles-list"),
         children <-- $tiles.split(_.id)(renderTile),
