@@ -1,5 +1,5 @@
-bingo
-=====
+corpbingo
+=========
 
 ## Requirements
 
