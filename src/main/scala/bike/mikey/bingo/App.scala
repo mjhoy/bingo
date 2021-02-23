@@ -18,29 +18,34 @@ case class Free() extends Tile {
   def id = "free"
   def active = true
 }
+case class Game(won: Boolean, tiles: List[Tile])
 
 sealed trait Command
 case class Toggle(tileId: String) extends Command
 
 object App {
-  private val tilesVar = Var(List[Tile]())
+  private val gameVar = Var(Game(won = false, tiles = List[Tile]()))
 
   private val commandObserver = Observer[Command] {
     case Toggle(tileId) =>
-      tilesVar.update(
-        _.map(t =>
+      gameVar.update(game => {
+        val withPicked = game.tiles.map(t =>
           t match {
             case Free()               => t
             case Square(text, picked) => if (t.id == tileId) Square(text, !picked) else t
           },
-        ),
-      )
+        )
+        Game(won = isBingo(withPicked), tiles = withPicked)
+      })
+
+    // calculate if we won
+    // update game
   }
 
   lazy val node: HtmlElement = {
-    val $tiles = tilesVar.signal
+    val $game = gameVar.signal
     div(
-      className("container"),
+      className <-- $game.map(game => if (game.won) "container bingoWon" else "container"),
       h1("Corporate Bingo!"),
       h2(
         a(
@@ -50,7 +55,11 @@ object App {
       ),
       ul(
         cls("tiles-list"),
-        children <-- $tiles.split(_.id)(renderTile),
+        children <-- $game.map(_.tiles).split(_.id)(renderTile),
+      ),
+      div(
+        className("bingoBanner"),
+        "BINGO!",
       ),
     )
   }
@@ -142,7 +151,7 @@ object App {
   def main(args: Array[String]): Unit = {
     val seed = initSeed()
     val board = initBoard(seed)
-    tilesVar.update(_ => { board })
+    gameVar.update(game => { game.copy(tiles = board) })
     dom.document.addEventListener(
       "DOMContentLoaded",
       { (_: dom.Event) =>
@@ -150,5 +159,30 @@ object App {
         render(appContainer, node)
       },
     )
+  }
+
+  def connected(tileIdx: Int, step: Int => Int, limit: Int, tiles: List[Tile]): Boolean = {
+    if (tileIdx > limit) {
+      return true
+    }
+    val tile = tiles(tileIdx)
+    if (!tile.active) {
+      return false
+    }
+
+    connected(step(tileIdx), step, limit, tiles)
+  }
+
+  def isBingo(tiles: List[Tile]): Boolean = {
+    List(
+      // Horizontal
+      List(0, 5, 10, 15, 20).exists(idx => connected(idx, (_ + 1), idx + 4, tiles)),
+      // Vertical
+      List(0, 1, 2, 3, 4).exists(idx => connected(idx, (_ + 5), 24, tiles)),
+      // Diag left -> right
+      connected(0, (_ + 6), 24, tiles),
+      // Diag right -> left
+      connected(4, (_ + 4), 20, tiles),
+    ).exists(identity)
   }
 }
