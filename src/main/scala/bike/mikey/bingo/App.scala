@@ -119,6 +119,9 @@ object App {
     "Leverage",
     "Cross-channel",
     "Speed to market",
+    "Take the time to recognize",
+    "Shout-out",
+    "Circle back",
   )
 
   def setNewSeed(): Long = {
