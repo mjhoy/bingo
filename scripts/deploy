@@ -1,9 +1,31 @@
 #!/bin/bash
+#
+# enterprise™ asset hashing
+# don't try this at home!
 
 set -eoux pipefail
 
+mkdir -p dist
+rm -f dist/*
+index_file="dist/index.html"
+cp index-for-deploy.html $index_file
+
 sbt fastLinkJS
 
-cp assets/style.css dist/style.css
-cp target/scala-2.13/bingo-fastopt/main.js dist/main.js
-aws s3 sync dist s3://corpbingo/
+function assetHash {
+  path=$1
+  file=$(basename $path)
+  extension="${file##*.}"
+  file_without_extension="${file%.*}"
+  hash=$(openssl sha1 $path | cut -f 2 -d = | xargs)
+  renamed="${file_without_extension}-${hash}.${extension}"
+  cp $path dist/$renamed
+  sed -i -e "s/$file/$renamed/g" $index_file
+  echo $renamed
+}
+
+assetHash assets/style.css
+assetHash target/scala-2.13/bingo-fastopt/main.js
+
+aws s3 sync dist s3://${S3_BUCKET_NAME}/
+aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" --paths '/*'
