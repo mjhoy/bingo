@@ -122,6 +122,8 @@ object App {
     "Take the time to recognize",
     "Shout-out",
     "Circle back",
+    "Tailwind",
+    "Reinvent the wheel",
   )
 
   def setNewSeed(): Long = {
