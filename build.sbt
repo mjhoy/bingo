@@ -49,6 +49,6 @@ addCommandAlias(
 )
 
 addCommandAlias(
-  "fixAll",
+  "fix",
   "scalafmt ; scalafix",
 )
