@@ -2,5 +2,5 @@
 /target/
 /.bsp/
 /node_modules/
-/dist/style.css
-/dist/main.js
+/dist/
+.env
