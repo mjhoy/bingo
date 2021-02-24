@@ -6,10 +6,7 @@ import scala.util.{Failure, Success, Try}
 import com.raquo.laminar.api.L._
 import org.scalajs.dom
 
-import bike.mikey.bingo.models.{Free, Game, Square, Tile}
-
-sealed trait Command
-case class Toggle(tileId: String) extends Command
+import bike.mikey.bingo.models.{Command, Free, Game, Square, Tile, Toggle}
 
 object App {
   private val gameVar = Var(Game(won = false, tiles = List[Tile]()))
