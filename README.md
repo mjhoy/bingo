@@ -18,11 +18,7 @@ Uses [scalajs](https://www.scala-js.org) and the
 To compile the JavaScript, run a sbt server, and then the `~fastLinkJS` command:
 
 ```
-$ sbt
-[info] welcome to sbt 1.4.7 (Azul Systems, Inc. Java 1.8.0_202)
-[...]
-[info] started sbt server
-sbt:Bingo> ~fastLinkJS
+$ sbt ~fastLinkJS
 ```
 
 Now, you need an HTTP server serving from the root of the repository. The
