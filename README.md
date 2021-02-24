@@ -37,7 +37,9 @@ lint. To try to fix errors, run `sbt fixAll`.
 
 ## Deploying
 
-With appropriate S3 permissions:
+Assumes an S3 bucket with a cloudfront distribution.
+
+Set `S3_BUCKET_NAME` and `CLOUDFRONT_DISTRIBUTION_ID` env vars, then run:
 
 ```sh
 ./scripts/deploy
