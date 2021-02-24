@@ -6,22 +6,7 @@ import scala.util.{Failure, Success, Try}
 import com.raquo.laminar.api.L._
 import org.scalajs.dom
 
-sealed trait Tile {
-  def id: String
-  def active: Boolean
-}
-case class Square(text: String, picked: Boolean) extends Tile {
-  def id = text
-  def active = picked
-}
-case class Free() extends Tile {
-  def id = "free"
-  def active = true
-}
-case class Game(won: Boolean, tiles: List[Tile])
-
-sealed trait Command
-case class Toggle(tileId: String) extends Command
+import bike.mikey.bingo.models.{Command, Free, Game, Square, Tile, Toggle}
 
 object App {
   private val gameVar = Var(Game(won = false, tiles = List[Tile]()))
@@ -35,7 +20,7 @@ object App {
             case Square(text, picked) => if (t.id == tileId) Square(text, !picked) else t
           },
         )
-        Game(won = isBingo(withPicked), tiles = withPicked)
+        Game(won = Game.isBingo(withPicked), tiles = withPicked)
       })
 
     // calculate if we won
@@ -164,30 +149,5 @@ object App {
         render(appContainer, node)
       },
     )
-  }
-
-  def connected(tileIdx: Int, step: Int => Int, limit: Int, tiles: List[Tile]): Boolean = {
-    if (tileIdx > limit) {
-      return true
-    }
-    val tile = tiles(tileIdx)
-    if (!tile.active) {
-      return false
-    }
-
-    connected(step(tileIdx), step, limit, tiles)
-  }
-
-  def isBingo(tiles: List[Tile]): Boolean = {
-    List(
-      // Horizontal
-      List(0, 5, 10, 15, 20).exists(idx => connected(idx, (_ + 1), idx + 4, tiles)),
-      // Vertical
-      List(0, 1, 2, 3, 4).exists(idx => connected(idx, (_ + 5), 24, tiles)),
-      // Diag left -> right
-      connected(0, (_ + 6), 24, tiles),
-      // Diag right -> left
-      connected(4, (_ + 4), 20, tiles),
-    ).exists(identity)
   }
 }
