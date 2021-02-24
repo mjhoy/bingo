@@ -6,18 +6,8 @@ import scala.util.{Failure, Success, Try}
 import com.raquo.laminar.api.L._
 import org.scalajs.dom
 
-sealed trait Tile {
-  def id: String
-  def active: Boolean
-}
-case class Square(text: String, picked: Boolean) extends Tile {
-  def id = text
-  def active = picked
-}
-case class Free() extends Tile {
-  def id = "free"
-  def active = true
-}
+import bike.mikey.bingo.models.{Free, Square, Tile}
+
 case class Game(won: Boolean, tiles: List[Tile])
 
 sealed trait Command
