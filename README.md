@@ -37,10 +37,15 @@ lint. To try to fix errors, run `sbt fixAll`.
 
 ## Deploying
 
-Assumes an S3 bucket with a cloudfront distribution.
+Assumes a working `aws` command with access to a S3 bucket and a
+cloudfront distribution.
 
 Set `S3_BUCKET_NAME` and `CLOUDFRONT_DISTRIBUTION_ID` env vars, then run:
 
 ```sh
+export S3_BUCKET_NAME=<bucket>
+export CLOUDFRONT_DISTRIBUTION_ID=<cloudfront_id>
 ./scripts/deploy
 ```
+
+Also deploys on merges to `main` on Github.
